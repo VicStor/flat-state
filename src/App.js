@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { connect } from 'react-redux'
+import { pipe } from 'ramda'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import { setState, set, get } from './flat-redux'
+import logo from './logo.svg'
+import './App.css'
+
+function App({ val, setState }) {
+	return (
+		<div className='App'>
+			<header className='App-header'>
+				<img src={logo} className='App-logo' alt='logo' />
+				<input
+					type='text'
+					value={val}
+					onChange={pipe(
+						get('target.value'),
+						set('val'),
+						setState
+					)}
+				/>
+				<p>
+					Edit <code>src/App.js</code> and save to reload.
+				</p>
+			</header>
+		</div>
+	)
 }
 
-export default App;
+const stateToProps = state => ({
+	val: state.val || ''
+})
+const dispatchToProps = dispatch => ({
+	setState: (...args) => dispatch(setState(...args))
+})
+
+export default connect(
+	stateToProps,
+	dispatchToProps
+)(App)
