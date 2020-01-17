@@ -9,15 +9,50 @@ const runIfFunc = (maybeFunc, ...args) =>
 
 const setByPath = curry((path, value, obj) => {
   const currentVal = getIn(obj, path)
-  return setIn(obj, path, runIfFunc(value, currentVal))
+  const newVal = runIfFunc(value, currentVal)
+  // return is(Promise, newVal)
+  //   ? setByPromise(path, newVal, obj)
+  //   : setIn(obj, path, newVal)
+  return setIn(obj, path, newVal)
 })
-
 const setByObj = curry((valuesObj, obj) =>
   Object.entries(valuesObj).reduce((resultObj, [key, value]) => {
     const currentVal = getIn(resultObj, key)
-    return setIn(resultObj, key, runIfFunc(value, currentVal))
+    const newVal = runIfFunc(value, currentVal)
+
+    // return is(Promise, newVal)
+    //   ? setByPromise(key, newVal, resultObj)
+    //   : setIn(resultObj, key, newVal)
+    return setIn(resultObj, key, newVal)
   }, obj)
 )
+
+// function setByPromise(path, promise, obj) {
+//   const newObj = setByObj(
+//     {
+//       [`${path}.error`]: null,
+//       [`${path}.isLoading`]: true,
+//       [`${path}.data`]: null
+//       // [`${path}.data`]: promise
+//     },
+//     obj
+//   )
+//   const currentVal = getIn(newObj, path)
+
+//   promise
+//     .then(data => {
+//       currentVal.error = null
+//       currentVal.isLoading = true
+//       currentVal.data = data
+//     })
+//     .catch(error => {
+//       currentVal.error = error
+//       currentVal.isLoading = true
+//       currentVal.data = null
+//     })
+
+//   return newObj
+// }
 
 export const get = curry((path, obj, def = void 0) => getIn(obj, path, def))
 
