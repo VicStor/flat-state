@@ -1,23 +1,14 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { Provider } from 'react-redux'
-import { createStore } from './flat-redux'
-import { composeWithDevTools } from 'redux-devtools-extension'
+import { createStore as reduxCreateStore } from 'redux'
+export { set, get } from './utils'
 
-import './index.css'
-import App from './App'
-// import * as serviceWorker from './serviceWorker';
+export const setState = setFn => ({
+	type: '@@FLAT_REDUX_ACTION',
+	setFn
+})
 
-const store = createStore(composeWithDevTools())
+export const createStore = (...args) => {
+	const reducer = (state = {}, action) =>
+		action.type === '@@FLAT_REDUX_ACTION' ? action.setFn(state) : state
 
-ReactDOM.render(
-	<Provider store={store}>
-		<App />
-	</Provider>,
-	document.getElementById('root')
-)
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-// serviceWorker.unregister();
+	return reduxCreateStore(reducer, ...args)
+}
