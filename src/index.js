@@ -1,16 +1,16 @@
-import { createStore as reduxCreateStore } from 'redux'
+import { createStore as reduxCreateStore, applyMiddleware } from 'redux'
+import futureManager from './future-manager'
+import { runIfFunc, FLAT_REDUX_ACTION_TYPE } from './utils'
+export { set, get, setState } from './utils'
 
-export { useData } from './hook'
-export { set, get } from './utils'
+export const createStore = initState => {
+  const reducer = (state = {}, { type, setFn }) => {
+    const newState =
+      type === FLAT_REDUX_ACTION_TYPE ? runIfFunc(setFn, state) : state
+    console.log(JSON.stringify(newState, null, 2))
 
-export const setState = setFn => ({
-  type: '@@FLAT_REDUX_ACTION',
-  setFn
-})
+    return newState
+  }
 
-export const createStore = (...args) => {
-  const reducer = (state = {}, action) =>
-    action.type === '@@FLAT_REDUX_ACTION' ? action.setFn(state) : state
-
-  return reduxCreateStore(reducer, ...args)
+  return reduxCreateStore(reducer, initState, applyMiddleware(futureManager))
 }

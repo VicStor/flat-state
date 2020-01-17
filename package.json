@@ -2,7 +2,13 @@
   "name": "flat-redux",
   "version": "0.1.0",
   "private": true,
-  "main": "build/lib/index.js",
+  "scripts": {
+    "start": "node scripts/start.js",
+    "build": "node scripts/build.js",
+    "test": "node scripts/test.js",
+    "debug": "NODE_ENV=development babel src -d dist",
+    "watch": "babel src/*.js --source-maps --watch --out-dir build"
+  },
   "dependencies": {
     "@babel/core": "7.6.0",
     "@svgr/webpack": "4.3.2",
@@ -66,10 +72,12 @@
     "webpack-manifest-plugin": "2.1.1",
     "workbox-webpack-plugin": "4.3.1"
   },
-  "scripts": {
-    "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+  "devDependencies": {
+    "@babel/preset-env": "^7.8.3",
+    "@testing-library/jest-dom": "^5.0.0",
+    "@testing-library/react": "^9.4.0",
+    "babel-preset-env": "^1.7.0",
+    "jest-environment-jsdom-fifteen": "^1.0.2"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -134,15 +142,5 @@
       "jest-watch-typeahead/filename",
       "jest-watch-typeahead/testname"
     ]
-  },
-  "babel": {
-    "presets": [
-      "react-app"
-    ]
-  },
-  "devDependencies": {
-    "@testing-library/jest-dom": "^5.0.0",
-    "@testing-library/react": "^9.4.0",
-    "jest-environment-jsdom-fifteen": "^1.0.2"
   }
 }
