@@ -1,4 +1,4 @@
-import { set } from '../utils'
+import { set, stringToPath, toPath } from '../utils'
 
 const mockDispatch = jest.fn(x => {
   console.log(x)
@@ -33,5 +33,25 @@ describe('set function', () => {
       mockDispatch
     )
     expect(res.a.b[2]).toBe(11)
+  })
+})
+
+describe('stringToPath function', () => {
+  test('convert string to path array', () => {
+    const objPath = stringToPath('a.b')
+    expect(objPath).toEqual(['a', 'b'])
+
+    const arrPath = stringToPath('a.b[0]')
+    expect(arrPath).toEqual(['a', 'b', '0'])
+  })
+})
+
+describe('toPath function', () => {
+  test('convert string to path array', () => {
+    const objPath = toPath('a.b.c')
+    expect(objPath).toEqual(['a', 'b', 'c'])
+
+    const arrPath = toPath('a[0].b.c')
+    expect(arrPath).toEqual(['a', '0', 'b', 'c'])
   })
 })

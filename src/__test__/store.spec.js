@@ -43,7 +43,7 @@ describe('Store dispatch', () => {
     })
   })
 
-  test('update store with promise', done => {
+  test('Update store with promise', done => {
     const action = setState('a', Promise.resolve('b'))
     store.dispatch(action)
 
@@ -62,7 +62,7 @@ describe('Store dispatch', () => {
         isLoading: false
       })
       done()
-    }, 1000)
+    }, 10)
   })
 })
 
@@ -73,9 +73,30 @@ describe('Store update', () => {
   })
 
   test('Update property in store by .set', () => {
-    console.log('store', Object.keys(store))
     store.set('a.b', { a: 1 })
     const state = store.getState()
     expect(state).toEqual({ a: { b: { a: 1 } } })
+  })
+
+  test('Update store with function resolves promise', done => {
+    store.set('a', 'a')
+    store.set('a', val => Promise.resolve(val + 'b'))
+
+    const state = store.getState()
+    expect(state.a).toEqual({
+      error: null,
+      data: null,
+      isLoading: true
+    })
+
+    setTimeout(() => {
+      const state = store.getState()
+      expect(state.a).toEqual({
+        error: null,
+        data: 'ab',
+        isLoading: false
+      })
+      done()
+    }, 10)
   })
 })
