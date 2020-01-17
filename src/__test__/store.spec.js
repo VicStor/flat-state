@@ -1,6 +1,6 @@
-import { is, compose, identity } from 'ramda'
+import { is, identity } from 'ramda'
 import { createStore } from '../index'
-import { set, setState, log, FLAT_REDUX_ACTION_TYPE } from '../utils'
+import { setState, FLAT_REDUX_ACTION_TYPE } from '../utils'
 
 describe('setState action creator', () => {
   test('Creates simple action', () => {
@@ -8,19 +8,6 @@ describe('setState action creator', () => {
 
     expect(action.type).toBe(FLAT_REDUX_ACTION_TYPE)
     expect(is(Function, action.setFn)).toBe(true)
-  })
-
-  test('Creates set action', () => {
-    const action = setState(
-      set({
-        a: 'a',
-        b: () => 'b'
-      })
-    )
-
-    expect(action.type).toBe(FLAT_REDUX_ACTION_TYPE)
-    expect(is(Function, action.setFn)).toBe(true)
-    expect(action.setFn.length).toBe(2)
   })
 })
 
@@ -30,34 +17,65 @@ describe('Store dispatch', () => {
     store = createStore({})
   })
 
-  test('update object in store', () => {
-    store.dispatch(setState(set('a.b', { a: 1 })))
-    const state1 = store.getState()
-    expect(state1).toEqual({ a: { b: { a: 1 } } })
+  test('Update property in store', () => {
+    store.dispatch(setState('a.b', { a: 1 }))
+    const state = store.getState()
+    expect(state).toEqual({ a: { b: { a: 1 } } })
   })
 
-  test('multi update store', () => {
-    const setFn = set({
-      a: 'a',
-      b: () => 'b'
-    })
-    const action = setState(setFn)
-    store.dispatch(action)
+  test('Update property in store', () => {
+    store.dispatch(setState('a.b[0]', { a: 1 }))
+    const state = store.getState()
+    expect(state).toEqual({ a: { b: [{ a: 1 }] } })
+  })
 
-    const state2 = store.getState()
-
-    expect(state2).toEqual({
+  test('Update multiple properties in store', () => {
+    store.dispatch(
+      setState({
+        a: 'a',
+        b: () => 'b'
+      })
+    )
+    const state = store.getState()
+    expect(state).toEqual({
       a: 'a',
       b: 'b'
     })
   })
 
-  test.only('update store with promise', () => {
-    const setFn = set('a.b', () => Promise.resolve('b'))
-    const action = setState(setFn)
+  test('update store with promise', done => {
+    const action = setState('a', Promise.resolve('b'))
     store.dispatch(action)
 
-    const state1 = store.getState()
-    expect(state1).toEqual({ a: { b: { a: 1 } } })
+    const state = store.getState()
+    expect(state.a).toEqual({
+      error: null,
+      data: null,
+      isLoading: true
+    })
+
+    setTimeout(() => {
+      const state = store.getState()
+      expect(state.a).toEqual({
+        error: null,
+        data: 'b',
+        isLoading: false
+      })
+      done()
+    }, 1000)
+  })
+})
+
+describe('Store update', () => {
+  let store
+  beforeEach(() => {
+    store = createStore({})
+  })
+
+  test('Update property in store by .set', () => {
+    console.log('store', Object.keys(store))
+    store.set('a.b', { a: 1 })
+    const state = store.getState()
+    expect(state).toEqual({ a: { b: { a: 1 } } })
   })
 })

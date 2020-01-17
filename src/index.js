@@ -1,16 +1,20 @@
 import { createStore as reduxCreateStore, applyMiddleware } from 'redux'
 import futureManager from './future-manager'
-import { runIfFunc, FLAT_REDUX_ACTION_TYPE } from './utils'
+import { runIfFunc, FLAT_REDUX_ACTION_TYPE, setState } from './utils'
 export { set, get, setState } from './utils'
 
-export const createStore = initState => {
-  const reducer = (state = {}, { type, setFn }) => {
-    const newState =
-      type === FLAT_REDUX_ACTION_TYPE ? runIfFunc(setFn, state) : state
-    console.log(JSON.stringify(newState, null, 2))
+export const createStore = (initState = {}, middlewares = []) => {
+  const reducer = (state = {}, { type, setFn }) =>
+    type === FLAT_REDUX_ACTION_TYPE ? runIfFunc(setFn, state) : state
 
-    return newState
+  const store = reduxCreateStore(
+    reducer,
+    initState,
+    applyMiddleware(futureManager, ...middlewares)
+  )
+
+  store.set = (...args) => {
+    store.dispatch(setState(...args))
   }
-
-  return reduxCreateStore(reducer, initState, applyMiddleware(futureManager))
+  return store
 }
