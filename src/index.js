@@ -1,7 +1,6 @@
 import { createStore as reduxCreateStore, applyMiddleware } from 'redux'
 import futureManager from './future-manager'
-import { runIfFunc, FLAT_REDUX_ACTION_TYPE, setState } from './utils'
-export { set, get, setState } from './utils'
+import { runIfFunc, FLAT_REDUX_ACTION_TYPE, setState, get } from './utils'
 
 export const createStore = (initState = {}, middlewares = []) => {
   const reducer = (state = {}, { type, setFn }) =>
@@ -18,3 +17,5 @@ export const createStore = (initState = {}, middlewares = []) => {
   }
   return store
 }
+
+export { setState as set, get }

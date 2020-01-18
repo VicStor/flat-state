@@ -1,4 +1,4 @@
-import { getIn, setIn } from 'formik'
+import { setIn } from 'formik'
 import { is, curry } from 'ramda'
 
 const isString = is(String)
@@ -81,8 +81,19 @@ export const toPath = value => {
   return stringToPath(value)
 }
 
+/**
+ * Deeply get a value from an object via its path.
+ */
+export const get = curry((path, obj, def = undefined, p = 0) => {
+  const pathArr = toPath(path)
+  while (obj && p < pathArr.length) {
+    obj = obj[pathArr[p++]]
+  }
+  return obj === undefined ? def : obj
+})
+
 const setByPath = curry((path, value, obj, store) => {
-  const currentVal = getIn(obj, path)
+  const currentVal = get(path, obj)
   const newVal = runIfFunc(value, currentVal)
   return isPromise(newVal)
     ? setByPromise(path, newVal, obj, store)
@@ -91,7 +102,7 @@ const setByPath = curry((path, value, obj, store) => {
 
 const setByObj = curry((valuesObj, obj, store) =>
   Object.entries(valuesObj).reduce((resultObj, [key, value]) => {
-    const currentVal = getIn(resultObj, key)
+    const currentVal = get(key, resultObj)
     const newVal = runIfFunc(value, currentVal)
 
     return isPromise(newVal)
@@ -99,8 +110,6 @@ const setByObj = curry((valuesObj, obj, store) =>
       : setIn(resultObj, key, newVal)
   }, obj)
 )
-
-export const get = curry((path, obj, def = void 0) => getIn(obj, path, def))
 
 export const set = (...args) => {
   const [maybePath] = args
@@ -137,7 +146,7 @@ function setByPromise(path, promise, obj, store) {
     {
       [`${path}.error`]: null,
       [`${path}.isLoading`]: true,
-      [`${path}.data`]: getIn(store.getState(), `${path}.data`, null)
+      [`${path}.data`]: get(`${path}.data`, store.getState(), null)
     },
     obj,
     store
