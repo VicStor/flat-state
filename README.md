@@ -79,7 +79,7 @@ set('counter', counter => counter + 1) // Invoked with 'counter' equals 0
 # Simplified abstraction
 Instance of `store` extended with `.set` method which is whrapper over `dispatch(set())`. So you can dispatch updates even simpler. Let's refactor **Counter** example using `.set`
 ```JavaScript
-import { createStore } from '...'
+import { createStore } from 'flat-redux'
 
 const store = createStore()
 const inrement = x => x + 1
@@ -106,6 +106,15 @@ store.set('counter', decrement)
 store.set('user.firstName', 'John')
 store.set('user.secondName', 'Doe')
 store.set('user.nickName', 'Incognito')
+```
+You can export `.set` from the file where `store` created and use it directly in you code
+```JavaScript
+import { createStore } from 'flat-redux'
+
+const store = createStore()
+const set = store.set
+
+export { set }
 ```
 **Next store updates in this doc use `.set` method. But you can import `set` as standalone function as shown in [Getting started]:(#getting-started) if you prefer so.**</br>
 # Multi values updates
