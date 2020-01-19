@@ -1,12 +1,9 @@
 import logger from 'redux-logger'
-import { createStore, setState } from './index.js'
+import { createStore } from './index.js'
 
 const store = createStore({}, [logger])
-
-const action = setState('a.b', Promise.resolve('b'))
-store.dispatch(action)
+store.set('a.b', Promise.resolve('b'))
 
 setTimeout(() => {
-  const action = setState('a.b', b => Promise.resolve(b.data + 'b'))
-  store.dispatch(action)
+  store.set('a.b', b => Promise.resolve(b.data + 'b'))
 }, 10)

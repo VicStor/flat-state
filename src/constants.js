@@ -1,0 +1,1 @@
+export const FLAT_REDUX_ACTION_TYPE = '@@FLAT_REDUX_ACTION'
