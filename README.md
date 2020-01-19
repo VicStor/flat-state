@@ -1,5 +1,6 @@
 # Simple state management
-Based on Redux, but has no boilerplay code. Single Reducer / Single Action.
+Based on Redux, but has no boilerplate and with async flow in mind</br>
+**No Actions. No reducers**
 
 # Installation
 package is available on NPM for use with a module bundler or in a Node application:
@@ -108,7 +109,7 @@ store.set('user.nickName', 'Incognito')
 ```
 **Next store updates in this doc use `.set` method. But you can import `set` as standalone function as shown in [Getting started]:(#getting-started) if you prefer so.**</br>
 # Multi values updates
-As you see from previouse part setting user looks too wordy, and more it invokes subscribers each time you `.set`. In fact `.set` can help you to avoid that behaivior if you want to set multiple values on different `Lenses`. Let's refactor
+As you see from previouse part setting user looks too wordy, and more, it invokes subscribers each time you `.set`. In fact `.set` can help you to avoid that behaivior if you want to set multiple values on different `Lenses`. Let's refactor!
 ```JavaScript
 store.set({
   'user.firstName', 'John',
@@ -126,7 +127,7 @@ store.set({
   ...
 })
 ```
-And as you see you're not limited to set values, `Updater` might be a function as well
+_As you see you're not limited to set values, `Updater` might be a function_
 
 # Asyncronous updates
 Application doesn't exist in a vacuum. It communicates with server and has asyncronous logic. Let's review this use case
@@ -140,7 +141,7 @@ store.set({
 ```
 To better understand what will be result of this code, let's take a closer look on return data and how we gonna use it in a application. Any async flow assumes the following
 
-- response has some state **resolved**/**inprogress**
+- response has some state **resolved**/**in-progress**
 - response might be resoleved with **data** or with **error**
 
 Here's how we most likely to use it in React component
@@ -170,11 +171,11 @@ So every time `Updater` is `Promise` or returns it. Following shape will be crea
   error: null
 }
 ```
-and as soon as promise resolved this data updated with `error`, `data` and `isLoading` change
-Just keep in mind, that there is no magic here, and initial data (with `isLoading: true`) set syncronously and response will be set some time in future.
+That is the initial state of request, and as soon as promise resolved this data updated with `error`, `data` and `isLoading` change.</br>
+Just keep in mind, that there is no magic here, and initial data (with `isLoading: true`) set syncronously and response will be set some time in future.</br>
 Les's take a look
 ```JavaScript
-import { createStore } from '...'
+import { createStore } from 'flat-redux'
 
 const store = createStore()
 
@@ -206,6 +207,7 @@ setTimeout(() => {
 //     error: null
 //   }
 // }
-}, 1)
+}, 0)
 ```
 In this case `store` updated with actual data on next tick
+# Happy coding
