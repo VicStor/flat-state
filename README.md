@@ -219,4 +219,31 @@ setTimeout(() => {
 }, 0)
 ```
 In this case `store` updated with actual data on next tick
+
+# Using with React
+Package provide `link` factory to connect React componets to redux state. It requires `connect` function from `'react-redux'`.</br>
+Check out code above to see how you create `link`. When you link your React component, you will get props defined and `set` function.
+```JavaScript
+import React from 'react'
+import {link as rawLink} from 'flat-redux'
+import {connect} from 'react-redux'
+
+// set, and data from store appiears in props
+const UserComponent = ({userData, set, userId, ...props}) => <User userData={userData} />
+
+// create your link fucntion from link factory ones in your app
+// then link your components
+const link = rawLink(connect)
+
+// Link your components
+
+// link({
+//   componentProp: Lens
+// })(UserComponent)
+
+export default link(ownProps => ({
+  userData: `users.${ownProps.userId}`
+}))(UserComponent)
+```
+
 # Happy coding
