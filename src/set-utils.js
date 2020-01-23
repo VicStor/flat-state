@@ -1,5 +1,4 @@
-import { set as rSet, view as rView, lensPath, curry } from 'ramda'
-import { compose } from 'redux'
+import { set as rSet, view as rView, lensPath, curry, pipe } from 'ramda'
 
 const charCodeOfDot = '.'.charCodeAt(0)
 const reEscapeChar = /\\(\\)?/g
@@ -66,18 +65,18 @@ const stringToPath = string => {
  * toPath('a[0].b.c')
  * // => ['a', 0, 'b', 'c']
  */
-export const toPath = value => {
-  if (Array.isArray(value)) {
-    return value
-  }
-  return stringToPath(value)
-}
+export const toPath = value =>
+  Array.isArray(value) ? value : stringToPath(value)
 
 export const setIn = curry((path, val, obj) =>
-  compose(lens => rSet(lens, val, obj), lensPath, toPath)(path)
+  pipe(toPath, lensPath, lens => rSet(lens, val, obj))(path)
 )
 
-export const getIn = curry((path, obj, def = undefined) => {
-  const val = compose(lens => rView(lens, obj), lensPath, toPath)(path)
-  return val === undefined ? def : val
-})
+export const getIn = curry((path, obj, def = undefined) =>
+  pipe(
+    toPath,
+    lensPath,
+    lens => rView(lens, obj),
+    val => (val === undefined ? def : val)
+  )(path)
+)

@@ -7,8 +7,6 @@ exports.getIn = exports.setIn = exports.toPath = void 0;
 
 var _ramda = require("ramda");
 
-var _redux = require("redux");
-
 var charCodeOfDot = '.'.charCodeAt(0);
 var reEscapeChar = /\\(\\)?/g;
 var rePropName = RegExp( // Match anything that isn't a dot or bracket.
@@ -75,26 +73,23 @@ var stringToPath = function stringToPath(string) {
 
 
 var toPath = function toPath(value) {
-  if (Array.isArray(value)) {
-    return value;
-  }
-
-  return stringToPath(value);
+  return Array.isArray(value) ? value : stringToPath(value);
 };
 
 exports.toPath = toPath;
 var setIn = (0, _ramda.curry)(function (path, val, obj) {
-  return (0, _redux.compose)(function (lens) {
+  return (0, _ramda.pipe)(toPath, _ramda.lensPath, function (lens) {
     return (0, _ramda.set)(lens, val, obj);
-  }, _ramda.lensPath, toPath)(path);
+  })(path);
 });
 exports.setIn = setIn;
 var getIn = (0, _ramda.curry)(function (path, obj) {
   var def = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : undefined;
-  var val = (0, _redux.compose)(function (lens) {
+  return (0, _ramda.pipe)(toPath, _ramda.lensPath, function (lens) {
     return (0, _ramda.view)(lens, obj);
-  }, _ramda.lensPath, toPath)(path);
-  return val === undefined ? def : val;
+  }, function (val) {
+    return val === undefined ? def : val;
+  })(path);
 });
 exports.getIn = getIn;
 //# sourceMappingURL=set-utils.js.map

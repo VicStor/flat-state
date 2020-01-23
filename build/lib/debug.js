@@ -6,6 +6,7 @@ var _index = require("./index.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// import { runIfFunc } from './utils.js'
 var store = (0, _index.createStore)({}, [_reduxLogger.default]);
 store.set('a.b', Promise.resolve('b'));
 setTimeout(function () {

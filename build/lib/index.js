@@ -9,6 +9,12 @@ Object.defineProperty(exports, "get", {
     return _utils.get;
   }
 });
+Object.defineProperty(exports, "link", {
+  enumerable: true,
+  get: function get() {
+    return _connectWrapper.link;
+  }
+});
 exports.createStore = exports.set = exports.setState = void 0;
 
 var _redux = require("redux");
@@ -18,6 +24,8 @@ var _futureManager = _interopRequireDefault(require("./future-manager"));
 var _utils = require("./utils");
 
 var _constants = require("./constants");
+
+var _connectWrapper = require("./connect-wrapper");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
