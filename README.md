@@ -235,11 +235,13 @@ const UserComponent = ({userData, set, userId, ...props}) => <User userData={use
 // then link your components
 const link = rawLink(connect)
 
-// Link your components
-
+// provides data from state ans set function
 // link({
 //   componentProp: Lens
 // })(UserComponent)
+
+// provides only set function
+// link(UserComponent)
 
 export default link(ownProps => ({
   userData: `users.${ownProps.userId}`
