@@ -1,5 +1,3 @@
-
-
 const INCREMENT = 'INCREMENT'
 const DECREMENT = 'DECREMENT'
 const SET_VALUE = 'SET_VALUE'
@@ -28,15 +26,17 @@ const stateToProps = state => ({
   counter: state.counter
 })
 
-const dispatchToProps = dispatch => bindActionCreators({
-  increment
-  decrement
-  setCounter
-}, dispatch)
+const dispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      increment,
+      decrement,
+      setCounter
+    },
+    dispatch
+  )
 
 export default connect(stateToProps, dispatchToProps)(Counter)
-
-
 
 const Counter = (counter, set, counterName) => (
   <div>
@@ -52,4 +52,3 @@ const stateToProps = ownProps => ({
 })
 
 export default link(stateToProps)(Counter)
-

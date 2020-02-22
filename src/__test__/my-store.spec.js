@@ -12,11 +12,11 @@ describe('createStore', () => {
     expect(is(Function, store.get)).toBe(true)
     expect(is(Function, store.link)).toBe(true)
   })
-  test.skip('.getState and .get work right', () => {
+  test('.getState and .get work right', () => {
     expect(store.getState()).toEqual({})
     expect(store.get('a.a.a')).toBe(undefined)
   })
-  describe.skip('.set', () => {
+  describe('.set', () => {
     test('.set sets value on lens', () => {
       store.set('a.a.a', 'it is a')
       const state = store.getState()
