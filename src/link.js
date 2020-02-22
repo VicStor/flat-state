@@ -1,8 +1,10 @@
+import { curry } from 'ramda'
+
 import { set, get } from './index'
 import { runIfFunc } from './utils'
 import { NO_LINK_CONNECT } from './constants'
 
-const isLinkSetter = ReactComponent => ReactComponent !== NO_LINK_CONNECT
+const isLinkSetter = ReactComponent => ReactComponent === NO_LINK_CONNECT
 
 export const link = connect =>
   curry((linkSetter, ReactComponent = NO_LINK_CONNECT) => {
@@ -21,11 +23,17 @@ export const link = connect =>
     }
 
     const dispatchToProps = dispatch => ({
-      set: (...args) => dispatch(set(...args))
+      set: (...args) => dispatch(set(...args)),
+      tools: {
+        get,
+        isLoading: asyncValue =>
+          asyncValue === undefined || asyncValue.isLoading,
+        isError: asyncValue => !!asyncValue && asyncValue.error
+      }
     })
 
     return connect(
-      isLinkSetter(ReactComponent) ? stateToProps : null,
+      isLinkSetter(ReactComponent) ? null : stateToProps,
       dispatchToProps
     )(Component)
   })
