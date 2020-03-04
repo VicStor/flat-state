@@ -6,7 +6,7 @@ import { NO_LINK_CONNECT } from './constants'
 
 const isLinkSetter = ReactComponent => ReactComponent === NO_LINK_CONNECT
 
-export const link = connect =>
+const link = connect =>
   curry((linkSetter, ReactComponent = NO_LINK_CONNECT) => {
     const Component = isLinkSetter(ReactComponent) ? linkSetter : ReactComponent
 
@@ -37,3 +37,5 @@ export const link = connect =>
       dispatchToProps
     )(Component)
   })
+
+export default link

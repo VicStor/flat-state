@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../src/constants.js"],"names":["FLAT_REDUX_ACTION_TYPE"],"mappings":";;;;;;AAAO,IAAMA,sBAAsB,GAAG,qBAA/B","sourcesContent":["export const FLAT_REDUX_ACTION_TYPE = '@@FLAT_REDUX_ACTION'\n"],"file":"constants.js"}

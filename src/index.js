@@ -3,7 +3,6 @@ import { createStore as reduxCreateStore, applyMiddleware } from 'redux'
 import futureManager from './future-manager'
 import { runIfFunc, set, get } from './utils'
 import { FLAT_REDUX_ACTION_TYPE } from './constants'
-import { link } from './link'
 
 export const setState = (...args) => ({
   type: FLAT_REDUX_ACTION_TYPE,
@@ -26,4 +25,4 @@ export const createStore = (initState = {}, middlewares = []) => {
   return store
 }
 
-export { setState as set, get, link }
+export { setState as set, get }

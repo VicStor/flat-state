@@ -4,7 +4,8 @@
   "private": true,
   "main": "dist/index.js",
   "scripts": {
-    "build": "babel src/*.js --source-maps --out-dir build/lib",
+    "build:all": "babel src/*.js --source-maps --out-dir build/lib",
+    "build": "webpack",
     "test": "node scripts/test.js",
     "watch": "babel src/*.js --source-maps --watch --out-dir build/lib"
   },
