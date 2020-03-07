@@ -6,16 +6,16 @@ Based on Redux, but has no boilerplate and with async flow in mind</br>
 package is available on NPM for use with a module bundler or in a Node application:
 ```Bash
 # NPM
-npm install --save flat-redux
+npm install --save flat-state
 # Yarn
-yarn add flat-redux
+yarn add flat-state
 ```
 
 # Getting started
 You don't need to create reducer and actions. All you need to do is to create store. And use it the way shown in code below.
 
 ```JavaScript
-import { createStore, set } from 'flat-redux'
+import { createStore, set } from 'flat-state'
 
 const initState = { counter: 0 } // can be omitted. By default init state is {}
 const store = createStore(initState)
@@ -79,7 +79,7 @@ set('counter', counter => counter + 1) // Invoked with 'counter' equals 0
 # Simplified abstraction
 Instance of `store` extended with `.set` method which is whrapper over `dispatch(set())`. So you can dispatch updates even simpler. Let's refactor **Counter** example using `.set`
 ```JavaScript
-import { createStore } from 'flat-redux'
+import { createStore } from 'flat-state'
 
 const store = createStore()
 const inrement = x => x + 1
@@ -109,7 +109,7 @@ store.set('user.nickName', 'Incognito')
 ```
 You can export `.set` from the file where `store` created and use it directly in you code
 ```JavaScript
-import { createStore } from 'flat-redux'
+import { createStore } from 'flat-state'
 
 const store = createStore()
 const set = store.set
@@ -184,7 +184,7 @@ That is the initial state of request, and as soon as promise resolved this data 
 Just keep in mind, that there is no magic here, and initial data (with `isLoading: true`) set syncronously and response will be set some time in future.</br>
 Les's take a look
 ```JavaScript
-import { createStore } from 'flat-redux'
+import { createStore } from 'flat-state'
 
 const store = createStore()
 
@@ -225,7 +225,7 @@ Package provide `link` factory to connect React componets to redux state. It req
 Check out code above to see how you create `link`. When you link your React component, you will get props defined and `set` function.
 ```JavaScript
 import React from 'react'
-import {link as rawLink} from 'flat-redux'
+import {link as rawLink} from 'flat-state'
 import {connect} from 'react-redux'
 
 // set, and data from store appiears in props
