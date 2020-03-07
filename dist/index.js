@@ -22294,6 +22294,7 @@
       /*! **********************!*\
   !*** ./src/index.js ***!
   \**********************/
+<<<<<<< HEAD
       /*! exports provided: setState, createStore, set, get */
       /***/ function(module, __webpack_exports__, __webpack_require__) {
         'use strict'
@@ -22346,6 +22347,48 @@
             _nonIterableSpread()
           )
         }
+=======
+/*! exports provided: set, get, setState, createStore */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return setState; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setState", function() { return setState; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createStore", function() { return createStore; });
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var _future_manager__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./future-manager */ "./src/future-manager.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils */ "./src/utils.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get", function() { return _utils__WEBPACK_IMPORTED_MODULE_2__["get"]; });
+
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./constants */ "./src/constants.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+
+
+
+
+
+var setState = function setState() {
+  return {
+    type: _constants__WEBPACK_IMPORTED_MODULE_3__["FLAT_REDUX_ACTION_TYPE"],
+    Updater: _utils__WEBPACK_IMPORTED_MODULE_2__["set"].apply(void 0, arguments)
+  };
+};
+
+var createStore = function createStore() {
+  var initState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var middlewares = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+
+  var reducer = function reducer() {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+>>>>>>> export consistently
 
         function _nonIterableSpread() {
           throw new TypeError('Invalid attempt to spread non-iterable instance')
@@ -22425,8 +22468,13 @@
           return store
         }
 
+<<<<<<< HEAD
         /***/
       },
+=======
+
+/***/ }),
+>>>>>>> export consistently
 
     /***/ './src/set-utils.js':
       /*! **************************!*\

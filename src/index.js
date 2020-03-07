@@ -4,12 +4,12 @@ import futureManager from './future-manager'
 import { runIfFunc, set, get } from './utils'
 import { FLAT_REDUX_ACTION_TYPE } from './constants'
 
-export const setState = (...args) => ({
+const setState = (...args) => ({
   type: FLAT_REDUX_ACTION_TYPE,
   Updater: set(...args)
 })
 
-export const createStore = (initState = {}, middlewares = []) => {
+const createStore = (initState = {}, middlewares = []) => {
   const reducer = (state = {}, { type, Updater }) =>
     type === FLAT_REDUX_ACTION_TYPE ? runIfFunc(Updater, state) : state
 
@@ -25,4 +25,4 @@ export const createStore = (initState = {}, middlewares = []) => {
   return store
 }
 
-export { setState as set, get }
+export { setState as set, get, setState, createStore }
