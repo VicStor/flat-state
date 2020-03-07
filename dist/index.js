@@ -22062,7 +22062,8 @@
       /***/ function(module, __webpack_exports__, __webpack_require__) {
         'use strict'
         __webpack_require__.r(__webpack_exports__)
-        /* WEBPACK VAR INJECTION */ ;(function(module) {
+        /* WEBPACK VAR INJECTION */
+        ;(function(module) {
           /* harmony import */ var _ponyfill_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
             /*! ./ponyfill.js */ './node_modules/symbol-observable/es/ponyfill.js'
           )
