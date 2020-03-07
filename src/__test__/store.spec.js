@@ -1,37 +1,37 @@
 import { is, identity } from 'ramda'
-import { createStore } from '../index'
-import { setState, FLAT_REDUX_ACTION_TYPE } from '../utils'
+import { createStore, set } from '../index'
+import { FLAT_REDUX_ACTION_TYPE } from '../constants'
 
-describe('setState action creator', () => {
-  test('Creates simple action', () => {
-    const action = setState(identity)
+describe('set action creator', () => {
+  test('Creates action', () => {
+    const action = set(identity)
 
     expect(action.type).toBe(FLAT_REDUX_ACTION_TYPE)
-    expect(is(Function, action.setFn)).toBe(true)
+    expect(is(Function, action.Updater)).toBe(true)
   })
 })
 
-describe('Store dispatch', () => {
+describe('Store .dispatch', () => {
   let store
   beforeEach(() => {
-    store = createStore({})
+    store = createStore()
   })
 
   test('Update property in store', () => {
-    store.dispatch(setState('a.b', { a: 1 }))
+    store.dispatch(set('a.b', { a: 1 }))
     const state = store.getState()
     expect(state).toEqual({ a: { b: { a: 1 } } })
   })
 
   test('Update property in store', () => {
-    store.dispatch(setState('a.b[0]', { a: 1 }))
+    store.dispatch(set('a.b[0]', { a: 1 }))
     const state = store.getState()
     expect(state).toEqual({ a: { b: [{ a: 1 }] } })
   })
 
   test('Update multiple properties in store', () => {
     store.dispatch(
-      setState({
+      set({
         a: 'a',
         b: () => 'b'
       })
@@ -44,7 +44,7 @@ describe('Store dispatch', () => {
   })
 
   test('Update store with promise', done => {
-    const action = setState('a', Promise.resolve('b'))
+    const action = set('a', Promise.resolve('b'))
     store.dispatch(action)
 
     const state = store.getState()
@@ -66,10 +66,10 @@ describe('Store dispatch', () => {
   })
 })
 
-describe('Store update', () => {
+describe('Store .set', () => {
   let store
   beforeEach(() => {
-    store = createStore({})
+    store = createStore()
   })
 
   test('Update property in store by .set', () => {
@@ -80,6 +80,8 @@ describe('Store update', () => {
 
   test('Update store with function resolves promise', done => {
     store.set('a', 'a')
+    expect(store.getState()).toEqual({ a: 'a' })
+
     store.set('a', val => Promise.resolve(val + 'b'))
 
     const state = store.getState()
