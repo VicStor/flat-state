@@ -100,7 +100,18 @@ describe('createStore', () => {
       expect(stubListener2).toHaveBeenCalledTimes(1)
     })
   })
-  describe('Calls listeners only if value was changed', () => {
+  describe('Calls listeners only if value has changed', () => {
+    test('all listener should be called when value not shallowly equal on lens', () => {
+      const stubListener = jest.fn()
+      store.link('a.aa', () => stubListener())
+      store.link('a', () => stubListener())
+      store.link('b.aa', val => stubListener(val))
+      store.link('b.ab', val => stubListener(val))
+
+      store.set('a.aa', 'a value')
+
+      expect(stubListener).toHaveBeenCalledTimes(2)
+    })
     test('listener should not be called when value shallowly equal on lens', () => {
       const value = {}
       const stubListener = jest.fn()

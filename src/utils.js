@@ -1,4 +1,6 @@
-import { is, curry } from 'ramda'
+// import { is, curry } from 'ramda'
+import is from 'ramda/src/is'
+import curry from 'ramda/src/curry'
 
 import { setIn, getIn } from './set-utils'
 import { set as setState } from './index'

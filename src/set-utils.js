@@ -1,4 +1,9 @@
-import { set as rSet, view as rView, lensPath, curry, pipe } from 'ramda'
+// import { set as rSet, view as rView, lensPath, curry, pipe } from 'ramda'
+import rSet from 'ramda/src/set'
+import rView from 'ramda/src/view'
+import lensPath from 'ramda/src/lensPath'
+import curry from 'ramda/src/curry'
+import pipe from 'ramda/src/pipe'
 
 const charCodeOfDot = '.'.charCodeAt(0)
 const reEscapeChar = /\\(\\)?/g

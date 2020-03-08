@@ -1,4 +1,4 @@
-import { set, get, isString } from './utils'
+import { set, get } from './utils'
 
 const createStore = (initState = {}, middlewares = []) => {
   let state = { ...initState }
@@ -7,20 +7,15 @@ const createStore = (initState = {}, middlewares = []) => {
   return {
     getState: () => ({ ...state }),
     get: (...args) => get(...args, state),
-    set: (lens, updater) => {
-      const setByLens = (lens, updater) => {
+    set: (...args) => {
+      const newState = set(...args, state)
+      Object.entries(listeners).forEach(([lens, lensListeners]) => {
         const oldValue = get(lens, state)
-        state = set(lens, updater, state)
-        const newValue = get(lens, state)
+        const newValue = get(lens, newState)
         if (newValue === oldValue) return
-        const lensListeners = listeners[lens] || []
         lensListeners.forEach(lensListener => lensListener(newValue))
-      }
-      isString(lens)
-        ? setByLens(lens, updater)
-        : Object.entries(lens).forEach(([lens, updater]) =>
-            setByLens(lens, updater)
-          )
+      })
+      state = newState
     },
     link: (lens, listener) => {
       if (typeof listener !== 'function') {
