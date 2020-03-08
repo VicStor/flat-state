@@ -1,4 +1,9 @@
-import { set as rSet, view as rView, lensPath, curry, pipe } from 'ramda'
+// import { set as rSet, view as rView, lensPath, curry, pipe } from 'ramda'
+import rSet from 'ramda/src/set'
+import rView from 'ramda/src/view'
+import lensPath from 'ramda/src/lensPath'
+import curry from 'ramda/src/curry'
+import pipe from 'ramda/src/pipe'
 
 const charCodeOfDot = '.'.charCodeAt(0)
 const reEscapeChar = /\\(\\)?/g
@@ -32,7 +37,6 @@ const stringToPath = string => {
     result.push('')
   }
   string.replace(rePropName, (match, expression, quote, subString) => {
-    let key = match
     if (quote) {
       const key = subString.replace(reEscapeChar, '$1')
       return result.push(key)
@@ -40,12 +44,13 @@ const stringToPath = string => {
     if (expression) {
       const key = expression.trim()
       const keyInt = parseInt(key, 10)
+      // eslint-disable-next-line eqeqeq
       if (key == keyInt) {
         return result.push(keyInt)
       }
       throw Error(`Key in ${match} should be integer`)
     }
-    result.push(key)
+    result.push(match)
   })
   return result
 }

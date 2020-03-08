@@ -7,13 +7,15 @@ const createStore = (initState = {}, middlewares = []) => {
   return {
     getState: () => ({ ...state }),
     get: (...args) => get(...args, state),
-    set: (lens, updater) => {
-      const oldValue = get(lens, state)
-      state = set(lens, updater, state)
-      const newValue = get(lens, state)
-      if (newValue === oldValue) return
-      const lensListeners = listeners[lens] || []
-      lensListeners.forEach(lensListener => lensListener(newValue))
+    set: (...args) => {
+      const newState = set(...args, state)
+      Object.entries(listeners).forEach(([lens, lensListeners]) => {
+        const oldValue = get(lens, state)
+        const newValue = get(lens, newState)
+        if (newValue === oldValue) return
+        lensListeners.forEach(lensListener => lensListener(newValue))
+      })
+      state = newState
     },
     link: (lens, listener) => {
       if (typeof listener !== 'function') {

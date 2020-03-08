@@ -27,6 +27,19 @@ describe('createStore', () => {
       const state = store.getState()
       expect(state.b[0]).toEqual('it is b')
     })
+    test('.set sets by object', () => {
+      store.set({
+        'b[0]': 'it is b',
+        a: 'it is a'
+      })
+      const state = store.getState()
+      expect(state.b[0]).toEqual('it is b')
+      expect(state.a).toEqual('it is a')
+      expect(state).toEqual({
+        b: ['it is b'],
+        a: 'it is a'
+      })
+    })
   })
   describe('.link', () => {
     test('listener should be of type function', () => {
@@ -51,9 +64,15 @@ describe('createStore', () => {
     })
     test('.link listener to lens', () => {
       const stubListener = jest.fn()
-      store.link('a.a.a', val => stubListener(val))
-      store.set('a.a.a', 'a')
-      expect(stubListener).toBeCalled()
+      store.link('val.a', val => stubListener(val))
+      store.link('val.a', val => stubListener(val))
+      store.link('val.b', val => stubListener(val))
+      store.link('val.c', val => stubListener(val))
+      store.set({
+        'val.a': 'a',
+        'val.b': 'b'
+      })
+      expect(stubListener).toHaveBeenCalledTimes(3)
     })
     test('.link multiple listeners to lens', () => {
       const stubListener = jest.fn()
@@ -81,7 +100,18 @@ describe('createStore', () => {
       expect(stubListener2).toHaveBeenCalledTimes(1)
     })
   })
-  describe('Calls listeners only if value was changed', () => {
+  describe('Calls listeners only if value has changed', () => {
+    test('all listener should be called when value not shallowly equal on lens', () => {
+      const stubListener = jest.fn()
+      store.link('a.aa', () => stubListener())
+      store.link('a', () => stubListener())
+      store.link('b.aa', val => stubListener(val))
+      store.link('b.ab', val => stubListener(val))
+
+      store.set('a.aa', 'a value')
+
+      expect(stubListener).toHaveBeenCalledTimes(2)
+    })
     test('listener should not be called when value shallowly equal on lens', () => {
       const value = {}
       const stubListener = jest.fn()
