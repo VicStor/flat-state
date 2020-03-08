@@ -50,7 +50,7 @@ describe('Store .dispatch', () => {
     const state = store.getState()
     expect(state.a).toEqual({
       error: null,
-      data: null,
+      data: undefined,
       isLoading: true
     })
 
@@ -87,7 +87,7 @@ describe('Store .set', () => {
     const state = store.getState()
     expect(state.a).toEqual({
       error: null,
-      data: null,
+      data: undefined,
       isLoading: true
     })
 

@@ -27,6 +27,19 @@ describe('createStore', () => {
       const state = store.getState()
       expect(state.b[0]).toEqual('it is b')
     })
+    test('.set sets by object', () => {
+      store.set({
+        'b[0]': 'it is b',
+        a: 'it is a'
+      })
+      const state = store.getState()
+      expect(state.b[0]).toEqual('it is b')
+      expect(state.a).toEqual('it is a')
+      expect(state).toEqual({
+        b: ['it is b'],
+        a: 'it is a'
+      })
+    })
   })
   describe('.link', () => {
     test('listener should be of type function', () => {
@@ -51,9 +64,15 @@ describe('createStore', () => {
     })
     test('.link listener to lens', () => {
       const stubListener = jest.fn()
-      store.link('a.a.a', val => stubListener(val))
-      store.set('a.a.a', 'a')
-      expect(stubListener).toBeCalled()
+      store.link('val.a', val => stubListener(val))
+      store.link('val.a', val => stubListener(val))
+      store.link('val.b', val => stubListener(val))
+      store.link('val.c', val => stubListener(val))
+      store.set({
+        'val.a': 'a',
+        'val.b': 'b'
+      })
+      expect(stubListener).toHaveBeenCalledTimes(3)
     })
     test('.link multiple listeners to lens', () => {
       const stubListener = jest.fn()

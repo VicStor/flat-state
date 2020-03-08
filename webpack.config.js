@@ -4,8 +4,8 @@ const mode = process.env.NODE_ENV || 'development'
 
 module.exports = {
   mode,
-  target: 'node',
-  stats: 'verbose',
+  // target: 'node',
+  // stats: 'verbose',
   entry: {
     index: './src/index.js',
     store: './src/store.js',
@@ -13,7 +13,8 @@ module.exports = {
   },
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'dist'),
+    libraryTarget: 'commonjs2'
   },
   devtool: 'source-map',
   module: {
@@ -21,9 +22,7 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader'
-        }
+        use: 'babel-loader'
       }
     ]
   },

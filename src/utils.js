@@ -3,7 +3,7 @@ import { is, curry } from 'ramda'
 import { setIn, getIn } from './set-utils'
 import { set as setState } from './index'
 
-const isString = is(String)
+export const isString = is(String)
 export const isFunction = is(Function)
 const isPromise = is(Promise)
 
@@ -56,7 +56,7 @@ function setByPromise(path, promise, obj, store) {
       const action = setState(path, {
         error: error,
         isLoading: false,
-        data: null
+        data: undefined
       })
       store.dispatch(action)
     })
@@ -65,7 +65,7 @@ function setByPromise(path, promise, obj, store) {
     {
       error: null,
       isLoading: true,
-      data: getIn(`${path}.data`, store.getState(), null)
+      data: getIn(`${path}.data`, store.getState(), undefined)
     },
     obj,
     store

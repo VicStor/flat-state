@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build:all": "babel src/*.js --source-maps --out-dir build/lib",
-    "build": "webpack",
+    "build": "webpack --mode production",
     "test": "node scripts/test.js",
     "watch": "babel src/*.js --source-maps --watch --out-dir build/lib"
   },

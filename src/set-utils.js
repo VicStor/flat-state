@@ -32,7 +32,6 @@ const stringToPath = string => {
     result.push('')
   }
   string.replace(rePropName, (match, expression, quote, subString) => {
-    let key = match
     if (quote) {
       const key = subString.replace(reEscapeChar, '$1')
       return result.push(key)
@@ -40,12 +39,13 @@ const stringToPath = string => {
     if (expression) {
       const key = expression.trim()
       const keyInt = parseInt(key, 10)
+      // eslint-disable-next-line eqeqeq
       if (key == keyInt) {
         return result.push(keyInt)
       }
       throw Error(`Key in ${match} should be integer`)
     }
-    result.push(key)
+    result.push(match)
   })
   return result
 }
