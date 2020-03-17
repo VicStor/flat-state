@@ -5,7 +5,7 @@ Based on Redux, but has no boilerplate and with async flow in mind</br>
 <details>
   <summary>Show me code</summary>
 
-  ![](example/img/flat-state-title.png)
+  ![](example/flat-state-title.png)
 </details>
 
 # Installation
