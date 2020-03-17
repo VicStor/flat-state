@@ -2,6 +2,12 @@
 Based on Redux, but has no boilerplate and with async flow in mind</br>
 **No Actions. No reducers**
 
+<details>
+  <summary>Show me code</summary>
+
+  ![](example/img/flat-state-title.png)
+</details>
+
 # Installation
 package is available on NPM for use with a module bundler or in a Node application:
 ```Bash
