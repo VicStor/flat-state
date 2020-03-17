@@ -1,6 +1,6 @@
-# Simple state management
+<h1 align="center">Simple state management</h1>
+<p align="center"><b>No Actions. No reducers. Just code.</b></p>
 Based on Redux, but has no boilerplate and with async flow in mind</br>
-**No Actions. No reducers**
 
 <details>
   <summary>Show me code</summary>
